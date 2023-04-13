@@ -11,6 +11,25 @@ app.get('/', (req, res) => {
 	res.send('Hello from API!!');
 });
 
+app.get('/products', async (req, res) => {
+    try {
+        const products = await Product.find({});
+        res.json(products);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+app.get('products/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+		const product = await Product.findById(id);
+		res.json(product);
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+})
+
 app.post('/products', async(req, res) => {
     try {
         const product = await Product.create(req.body);
